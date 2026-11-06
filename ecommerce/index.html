@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROYAL COBALT | Modern Luxury E-Commerce</title>
+  
+  <!-- Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royal: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb', // Vibrant royal blue
+              700: '#1d4ed8', // Core signature royal blue
+              800: '#1e40af', // Deep cobalt
+              900: '#1e3a8a', // Midnight royal
+              950: '#0f172a', // Deep slate
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'royal-sm': '0 2px 8px -1px rgba(29, 78, 216, 0.1), 0 1px 4px -1px rgba(0, 0, 0, 0.04)',
+            'royal-md': '0 8px 24px -4px rgba(29, 78, 216, 0.16), 0 4px 8px -2px rgba(0, 0, 0, 0.04)',
+            'royal-lg': '0 16px 36px -6px rgba(29, 78, 216, 0.22), 0 8px 16px -4px rgba(0, 0, 0, 0.06)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React & ReactDOM CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel Standalone for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1d4ed8;
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-slide-in {
+      animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect } = React;
+
+    // --- PRODUCTS DATA ---
+    const PRODUCTS = [
+      {
+        id: 'prod-1',
+        name: 'Cobalt Horizon Automatic Chronograph',
+        tagline: 'Swiss automatic movement with sunburst royal blue dial',
+        category: 'Timepieces',
+        badge: 'Royal Pick',
+        price: 489,
+        originalPrice: 599,
+        rating: 4.9,
+        reviewsCount: 142,
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Blue Dial', hex: '#1d4ed8' },
+          { name: 'Midnight Onyx', hex: '#0f172a' },
+          { name: 'Steel Silver', hex: '#94a3b8' },
+        ],
+        description: 'Precision-engineered with 26-jewel automatic mechanical caliber, scratch-resistant sapphire crystal, and 100-meter water resistance. Hand-finished royal blue sunburst dial captures light at every angle.',
+        specs: {
+          'Movement': 'Automatic Mechanical (42h reserve)',
+          'Case Diameter': '41mm 316L Stainless Steel',
+          'Glass': 'Double-domed Sapphire with Anti-reflective coating',
+          'Water Resistance': '10 ATM (100m)',
+        },
+      },
+      {
+        id: 'prod-2',
+        name: 'Aether Blue ANC Studio Headphones',
+        tagline: 'High-fidelity lossless wireless with adaptive noise cancellation',
+        category: 'Audio',
+        badge: 'Bestseller',
+        price: 299,
+        originalPrice: 349,
+        rating: 4.8,
+        reviewsCount: 238,
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Deep Royal', hex: '#1e40af' },
+          { name: 'Matte Slate', hex: '#1e293b' },
+          { name: 'Frosted White', hex: '#f8fafc' },
+        ],
+        description: 'Custom 45mm neodymium drivers tuned for exceptional spatial depth. Features hybrid active noise cancellation, memory foam ear cushions wrapped in breathable protein leather, and 40-hour playback.',
+        specs: {
+          'Battery Life': '40 Hours with ANC Active',
+          'Connectivity': 'Bluetooth 5.3 + 3.5mm Lossless Jack',
+          'Drivers': '45mm Neodymium High-Res Audio',
+          'Weight': '255g Lightweight Ergonomic Frame',
+        },
+      },
+      {
+        id: 'prod-3',
+        name: 'Regal Navy Wool Cashmere Overcoat',
+        tagline: 'Tailored luxury outerwear with Italian structured drape',
+        category: 'Apparel',
+        badge: 'Limited Edition',
+        price: 360,
+        originalPrice: 450,
+        rating: 4.9,
+        reviewsCount: 89,
+        image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Navy', hex: '#172554' },
+          { name: 'Charcoal Shadow', hex: '#334155' },
+          { name: 'Camel Tan', hex: '#b45309' },
+        ],
+        description: 'Woven in Tuscany from 90% virgin merino wool and 10% pure cashmere. Features a structured peak lapel, horn buttons, deep royal silk-touch inner lining, and functional exterior flap pockets.',
+        specs: {
+          'Material': '90% Merino Wool, 10% Pure Cashmere',
+          'Lining': '100% Cupro Breathable Silk-Touch',
+          'Fit': 'Modern Structured Tailored Fit',
+          'Care': 'Specialist Dry Clean Only',
+        },
+      },
+      {
+        id: 'prod-4',
+        name: 'Cobalt Pro Wireless Mechanical Keyboard',
+        tagline: 'Hot-swappable custom tactile switches with anodized aluminum body',
+        category: 'Tech',
+        badge: 'New',
+        price: 185,
+        originalPrice: 220,
+        rating: 4.7,
+        reviewsCount: 114,
+        image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Blue & Cream', hex: '#2563eb' },
+          { name: 'Graphite Dark', hex: '#18181b' },
+        ],
+        description: 'CNC-milled aerospace aluminum chassis with PBT dye-sublimated royal blue accents. 2.4GHz low-latency wireless, multi-device Bluetooth pairing, and gasket-mounted acoustic sound dampening.',
+        specs: {
+          'Layout': '75% Compact 82-key Layout',
+          'Switches': 'Custom Factory-Lubed Tactile Gateron Pro',
+          'Battery': '4000mAh (Up to 200h without backlight)',
+          'Connectivity': 'Tri-mode: 2.4Ghz, BT 5.2, USB-C',
+        },
+      },
+      {
+        id: 'prod-5',
+        name: 'Monolith Minimalist MagSafe Stand',
+        tagline: 'Precision weighted solid brass & anodized cobalt charging hub',
+        category: 'Tech',
+        badge: 'Royal Pick',
+        price: 89,
+        originalPrice: 110,
+        rating: 4.8,
+        reviewsCount: 312,
+        image: 'https://images.unsplash.com/photo-1586105251261-72a756497a11?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Midnight', hex: '#1e3a8a' },
+          { name: 'Space Gray', hex: '#475569' },
+        ],
+        description: 'Solid 450g weighted base ensures effortless one-handed detachment. High-speed 15W Qi2 certified wireless fast charging with micro-suction silicone footpad.',
+        specs: {
+          'Power Output': '15W Fast Wireless MagSafe Qi2',
+          'Material': 'Solid Aluminum Alloy & Micro-suction base',
+          'Compatibility': 'iPhone 12-16 & Qi2 devices',
+          'Cable': 'Braided Royal Blue 1.5m USB-C included',
+        },
+      },
+      {
+        id: 'prod-6',
+        name: 'Sapphire Edition Minimalist Leather Folio',
+        tagline: 'Hand-stitched full-grain vegetable tanned Italian leather',
+        category: 'Accessories',
+        badge: 'Bestseller',
+        price: 135,
+        originalPrice: 165,
+        rating: 4.9,
+        reviewsCount: 176,
+        image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Sapphire', hex: '#1d4ed8' },
+          { name: 'Cognac Saddle', hex: '#78350f' },
+          { name: 'Jet Black', hex: '#0a0a0a' },
+        ],
+        description: 'Designed to fit up to a 14" laptop or tablet alongside documents and stylus. Patinas gracefully over decades of use with burnished edges and antique brass YKK zippers.',
+        specs: {
+          'Dimensions': '34cm x 24.5cm x 2cm',
+          'Leather': 'Full-grain Tuscan vegetable-tanned cowhide',
+          'Capacity': '13"-14" laptops, tablets, notepad & pens',
+          'Hardware': 'YKK Excella Antique Brass Zipper',
+        },
+      },
+      {
+        id: 'prod-7',
+        name: 'Acoustic Orbit 360 Spatial Speaker',
+        tagline: 'Omnidirectional sculptural home sound with ambient royal ring',
+        category: 'Audio',
+        badge: 'New',
+        price: 245,
+        originalPrice: 280,
+        rating: 4.6,
+        reviewsCount: 65,
+        image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Blue Textile', hex: '#2563eb' },
+          { name: 'Nordic Mist', hex: '#cbd5e1' },
+        ],
+        description: 'Fills any room with rich 360-degree acoustic clarity and room-calibrated passive dual bass radiators. Integrated capacitive royal blue touch ring controls volume and mood light.',
+        specs: {
+          'Sound Output': '65W RMS Room-filling 360-degree acoustic array',
+          'Wi-Fi / BT': 'AirPlay 2, Spotify Connect, Bluetooth 5.3',
+          'Ambient LED': 'Dimmable royal blue halo breathing light',
+          'Dimensions': '18cm diameter x 22cm height',
+        },
+      },
+      {
+        id: 'prod-8',
+        name: 'Imperial Linen Relaxed Resort Shirt',
+        tagline: '100% French flax linen woven for featherweight breathability',
+        category: 'Apparel',
+        price: 95,
+        originalPrice: 120,
+        rating: 4.7,
+        reviewsCount: 198,
+        image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Cobalt Azure', hex: '#3b82f6' },
+          { name: 'Crisp Cloud', hex: '#f8fafc' },
+          { name: 'Deep Sea Navy', hex: '#0f172a' },
+        ],
+        description: 'Pre-washed for instant softness. Tailored with a relaxed camp collar, mother-of-pearl buttons, and double-stitched seams designed to endure warm summers and travel journeys.',
+        specs: {
+          'Fabric': '100% Normandy French Flax Linen (160 GSM)',
+          'Buttons': 'Genuine Australian Mother-of-Pearl',
+          'Cut': 'Relaxed Modern Camp Collar',
+          'Pre-shrunk': 'Garment-washed for ultra-soft hand feel',
+        },
+      },
+      {
+        id: 'prod-9',
+        name: 'Vanguard Titanium Aviator Sunglasses',
+        tagline: 'Featherweight Japanese beta-titanium with royal polarized optics',
+        category: 'Accessories',
+        badge: 'Limited Edition',
+        price: 215,
+        originalPrice: 260,
+        rating: 4.9,
+        reviewsCount: 154,
+        image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Mirror Tint', hex: '#1d4ed8' },
+          { name: 'Gold & Smoke', hex: '#d97706' },
+          { name: 'Gunmetal Silver', hex: '#64748b' },
+        ],
+        description: 'Weighing only 18 grams, forged from pure Japanese Beta-titanium. Category 3 polarized lenses eliminate 99.9% of glare while enhancing contrast and true color reproduction.',
+        specs: {
+          'Frame': '100% Japanese Beta-Titanium (18g)',
+          'Lenses': 'Polarized Nylon UV400 with Oleophobic Shield',
+          'Hinges': 'Screwless patented precision flex hinge',
+          'Case': 'Collapsible magnetic royal blue leather case included',
+        },
+      },
+      {
+        id: 'prod-10',
+        name: 'Komorebi Royal Ceramic Pour-Over Set',
+        tagline: 'Artisanal stoneware dripper with heat-retentive matte glaze',
+        category: 'Accessories',
+        price: 74,
+        originalPrice: 90,
+        rating: 4.8,
+        reviewsCount: 92,
+        image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Cobalt Matte', hex: '#1e40af' },
+          { name: 'Stone Grey', hex: '#64748b' },
+        ],
+        description: 'Wheel-thrown stoneware fired at 1280°C. Engineered with 60-degree internal spirals for optimal water flow rate and full extraction of delicate specialty coffee notes.',
+        specs: {
+          'Capacity': '600ml Server + 1-4 Cup Dripper',
+          'Material': 'High-density Artisanal Stoneware',
+          'Thermal': 'Dishwasher and Microwave safe',
+          'Includes': 'Server, V60 Dripper, Acacia wood collar',
+        },
+      },
+      {
+        id: 'prod-11',
+        name: 'Apex True Wireless Studio Earbuds',
+        tagline: 'Dual driver architecture with 32-bit low-latency Bluetooth',
+        category: 'Audio',
+        badge: 'Royal Pick',
+        price: 189,
+        originalPrice: 229,
+        rating: 4.8,
+        reviewsCount: 420,
+        image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Deep Blue', hex: '#1e3a8a' },
+          { name: 'Pearl Silver', hex: '#e2e8f0' },
+        ],
+        description: 'Combines balanced armature clarity with deep dynamic sub-bass. Features 6-microphone beamforming for crystal clear calls, IPX5 water resistance, and wireless charging case.',
+        specs: {
+          'Battery': '8h earbuds + 28h pocket charging case',
+          'Waterproof': 'IPX5 Sweat and Rain resistant',
+          'Codecs': 'LDAC, aptX Adaptive, AAC, SBC',
+          'Fit': '5 pairs of medical-grade liquid silicone tips',
+        },
+      },
+      {
+        id: 'prod-12',
+        name: 'Nautilus Automatic Diver Watch',
+        tagline: 'Deep dive 300m rating with royal luminescent ceramic bezel',
+        category: 'Timepieces',
+        badge: 'Bestseller',
+        price: 520,
+        originalPrice: 650,
+        rating: 5.0,
+        reviewsCount: 184,
+        image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80',
+        colors: [
+          { name: 'Royal Ceramic Navy', hex: '#1d4ed8' },
+          { name: 'Deep Abyss Black', hex: '#0f172a' },
+        ],
+        description: 'Engineered for extreme depths and boardroom elegance alike. Unidirectional 120-click ceramic bezel filled with Swiss Super-LumiNova BGW9 glowing bright royal cyan in the dark.',
+        specs: {
+          'Depth Rating': '300m / 1000ft Professional Diver',
+          'Bezel': '120-Click Ceramic with Super-LumiNova',
+          'Crystal': '3.2mm Sapphire with Cyclops Date Magnifier',
+          'Bracelet': 'Solid 316L Stainless Steel with micro-adjustment clasp',
+        },
+      },
+    ];
+
+    const CATEGORIES = [
+      { id: 'All', name: 'All Masterpieces' },
+      { id: 'Timepieces', name: 'Timepieces' },
+      { id: 'Audio', name: 'Audio & Acoustics' },
+      { id: 'Tech', name: 'Luxury Tech' },
+      { id: 'Apparel', name: 'Royal Apparel' },
+      { id: 'Accessories', name: 'Accessories' },
+    ];
+
+    // --- MAIN APP COMPONENT ---
+    function App() {
+      // Cart State
+      const [items, setItems] = useState([
+        {
+          product: PRODUCTS[0],
+          quantity: 1,
+          selectedColor: 'Royal Blue Dial',
+        },
+        {
+          product: PRODUCTS[3],
+          quantity: 1,
+          selectedColor: 'Royal Blue & Cream',
+        }
+      ]);
+      const [isCartOpen, setIsCartOpen] = useState(false);
+      const [appliedPromo, setAppliedPromo] = useState(null);
+      const [discountPercent, setDiscountPercent] = useState(0);
+      const [quickViewProduct, setQuickViewProduct] = useState(null);
+      const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+      const [toastMessage, setToastMessage] = useState(null);
+
+      // Filtering and Searching State
+      const [selectedCategory, setSelectedCategory] = useState('All');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [sortOption, setSortOption] = useState('featured');
+      const [wishlistCount, setWishlistCount] = useState(3);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+      // Promo Input in Cart
+      const [promoInput, setPromoInput] = useState('');
+      const [promoError, setPromoError] = useState(null);
+
+      // Checkout form state
+      const [checkoutForm, setCheckoutForm] = useState({
+        name: 'Lord Arthur Vance',
+        email: 'arthur.vance@maison.com',
+        address: '42 Belgrave Square, Royal Row',
+        city: 'London',
+        postalCode: 'SW1X 8PG',
+        cardNumber: '•••• •••• •••• 9284',
+        expiry: '12/28',
+        cvv: '•••',
+      });
+      const [isProcessingOrder, setIsProcessingOrder] = useState(false);
+      const [orderConfirmed, setOrderConfirmed] = useState(false);
+      const [orderId, setOrderId] = useState('');
+
+      const showToast = (msg) => {
+        setToastMessage(msg);
+        setTimeout(() => setToastMessage(null), 3000);
+      };
+
+      const addItem = (product, quantity = 1, selectedColor) => {
+        const color = selectedColor || (product.colors && product.colors[0]?.name) || 'Default';
+        setItems((prev) => {
+          const idx = prev.findIndex((i) => i.product.id === product.id && i.selectedColor === color);
+          if (idx > -1) {
+            const updated = [...prev];
+            updated[idx].quantity += quantity;
+            return updated;
+          }
+          return [...prev, { product, quantity, selectedColor: color }];
+        });
+        showToast(`Added "${product.name}" to your bag`);
+        setIsCartOpen(true);
+      };
+
+      const updateQuantity = (productId, qty, selectedColor) => {
+        if (qty <= 0) {
+          removeItem(productId, selectedColor);
+          return;
+        }
+        setItems((prev) =>
+          prev.map((i) =>
+            i.product.id === productId && (!selectedColor || i.selectedColor === selectedColor)
+              ? { ...i, quantity: qty }
+              : i
+          )
+        );
+      };
+
+      const removeItem = (productId, selectedColor) => {
+        setItems((prev) =>
+          prev.filter(
+            (i) => !(i.product.id === productId && (!selectedColor || i.selectedColor === selectedColor))
+          )
+        );
+      };
+
+      const clearCart = () => setItems([]);
+
+      const applyPromo = (e) => {
+        e.preventDefault();
+        const code = promoInput.trim().toUpperCase();
+        if (code === 'ROYAL20') {
+          setAppliedPromo('ROYAL20');
+          setDiscountPercent(0.20);
+          setPromoError(null);
+          setPromoInput('');
+          showToast('20% Royal VIP Privilege Applied!');
+        } else if (code === 'BLUE10') {
+          setAppliedPromo('BLUE10');
+          setDiscountPercent(0.10);
+          setPromoError(null);
+          setPromoInput('');
+          showToast('10% Welcome Discount Applied!');
+        } else {
+          setPromoError('Invalid code. Try "ROYAL20" or "BLUE10"');
+        }
+      };
+
+      const removePromo = () => {
+        setAppliedPromo(null);
+        setDiscountPercent(0);
+      };
+
+      // Financials
+      const totalItems = items.reduce((acc, i) => acc + i.quantity, 0);
+      const subtotal = items.reduce((acc, i) => acc + i.product.price * i.quantity, 0);
+      const discount = Math.round(subtotal * discountPercent);
+      const FREE_SHIPPING_GOAL = 150;
+      const shipping = subtotal === 0 ? 0 : subtotal >= FREE_SHIPPING_GOAL ? 0 : 15;
+      const finalTotal = Math.max(0, subtotal - discount + shipping);
+      const progressPercent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_GOAL) * 100));
+      const amountNeeded = Math.max(0, FREE_SHIPPING_GOAL - subtotal);
+
+      // Filtered Products
+      const filteredProducts = useMemo(() => {
+        let list = [...PRODUCTS];
+        if (selectedCategory !== 'All') {
+          list = list.filter((p) => p.category === selectedCategory);
+        }
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase().trim();
+          list = list.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              p.tagline.toLowerCase().includes(q) ||
+              p.category.toLowerCase().includes(q) ||
+              p.description.toLowerCase().includes(q)
+          );
+        }
+        switch (sortOption) {
+          case 'price-asc':
+            list.sort((a, b) => a.price - b.price);
+            break;
+          case 'price-desc':
+            list.sort((a, b) => b.price - a.price);
+            break;
+          case 'rating':
+            list.sort((a, b) => b.rating - a.rating);
+            break;
+          case 'newest':
+            list.sort((a, b) => (b.badge === 'New' ? 1 : 0) - (a.badge === 'New' ? 1 : 0));
+            break;
+          default:
+            list.sort((a, b) => (b.badge === 'Royal Pick' ? 1 : 0) - (a.badge === 'Royal Pick' ? 1 : 0));
+            break;
+        }
+        return list;
+      }, [selectedCategory, searchQuery, sortOption]);
+
+      const handleOrderSubmit = (e) => {
+        e.preventDefault();
+        setIsProcessingOrder(true);
+        setTimeout(() => {
+          setIsProcessingOrder(false);
+          setOrderId(`RC-${Math.floor(100000 + Math.random() * 900000)}`);
+          setOrderConfirmed(true);
+          clearCart();
+        }, 1200);
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col bg-slate-50">
+          
+          {/* Top Bar */}
+          <div className="bg-slate-950 text-white text-xs py-2 px-4 border-b border-blue-900/40 relative z-50">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div className="hidden sm:flex items-center gap-2 text-blue-200">
+                <span className="text-blue-400">✦</span>
+                <span>Autumn/Winter Atelier Masterwork Releases</span>
+              </div>
+              <div className="mx-auto sm:mx-0 flex items-center gap-3 text-slate-300">
+                <span>Complimentary Express Delivery on orders over $150</span>
+                <span className="hidden md:inline text-blue-400 font-mono font-medium px-2 py-0.5 rounded bg-blue-950/80 border border-blue-800/60">
+                  CODE: ROYAL20
+                </span>
+              </div>
+              <div className="hidden lg:flex items-center gap-4 text-slate-300">
+                <span>USD ($)</span>
+                <span>Private Concierge</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Sticky Navigation Bar */}
+          <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between h-20 gap-4">
+                
+                {/* Mobile Menu Button */}
+                <div className="flex items-center lg:hidden">
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="p-2 rounded-xl text-slate-700 hover:text-blue-700 hover:bg-blue-50"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Brand Logo */}
+                <div
+                  className="flex items-center gap-3 cursor-pointer select-none"
+                  onClick={() => {
+                    setSelectedCategory('All');
+                    setSearchQuery('');
+                  }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center shadow-royal-sm text-white font-serif font-black tracking-wider text-xl transform hover:rotate-3 transition-transform">
+                    R
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-extrabold text-xl tracking-tight text-slate-900 font-sans flex items-center gap-1.5">
+                      ROYAL <span className="text-blue-700 font-black">COBALT</span>
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-blue-600 font-bold -mt-1">
+                      Atelier & Maison
+                    </span>
+                  </div>
+                </div>
+
+                {/* Desktop Nav Links */}
+                <nav className="hidden lg:flex items-center gap-1">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`px-3.5 py-2 rounded-full text-sm font-medium transition-all ${
+                        selectedCategory === cat.id
+                          ? 'bg-blue-50 text-blue-700 shadow-sm font-semibold border border-blue-200/60'
+                          : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </nav>
+
+                {/* Search & Actions */}
+                <div className="flex items-center gap-3">
+                  {/* Search Bar */}
+                  <div className="relative hidden md:block w-48 lg:w-60">
+                    <input
+                      type="text"
+                      placeholder="Search creations..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white text-slate-800"
+                    />
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Wishlist Button */}
+                  <button
+                    onClick={() => setWishlistCount(wishlistCount + 1)}
+                    className="relative p-2.5 rounded-full text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                    title="Wishlist"
+                  >
+                    <span className="text-base">♡</span>
+                    {wishlistCount > 0 && (
+                      <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </button>
+
+                  {/* Cart Button */}
+                  <button
+                    onClick={() => setIsCartOpen(true)}
+                    className="relative flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white shadow-royal-sm hover:shadow-royal-md transition-all active:scale-95 group cursor-pointer"
+                  >
+                    <div className="relative">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                      {totalItems > 0 && (
+                        <span className="absolute -top-1.5 -right-2 bg-amber-400 text-slate-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-blue-700 animate-pulse">
+                          {totalItems}
+                        </span>
+                      )}
+                    </div>
+                    <span className="hidden sm:inline text-xs font-bold tracking-wide uppercase">
+                      Bag ({totalItems})
+                    </span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Mobile Dropdown */}
+            {mobileMenuOpen && (
+              <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-1 shadow-lg">
+                <p className="text-xs uppercase tracking-wider text-slate-400 font-bold px-3 py-1">
+                  Select Category
+                </p>
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setSelectedCategory(cat.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${
+                      selectedCategory === cat.id
+                        ? 'bg-blue-600 text-white font-semibold'
+                        : 'text-slate-700 hover:bg-blue-50 hover:text-blue-700'
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </header>
+
+          {/* Hero Banner Section */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-blue-900 text-white py-16 lg:py-20 border-b border-blue-900/50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                {/* Left: Headlines & CTA */}
+                <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm">
+                    <span className="text-amber-400">★</span>
+                    <span>Winter 2026 Sovereign Edition</span>
+                  </div>
+
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-sans leading-tight">
+                    Artisanship in <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-indigo-300">
+                      Royal Cobalt Blue
+                    </span>
+                  </h1>
+
+                  <p className="text-base sm:text-lg text-slate-300 max-w-2xl font-light leading-relaxed">
+                    Engineered with uncompromising precision. Discover our signature collection of luxury automatic timepieces, spatial acoustic systems, and bespoke everyday gear.
+                  </p>
+
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a
+                      href="#catalog"
+                      className="px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-royal-lg hover:shadow-royal-md transition-all flex items-center gap-2 group cursor-pointer"
+                    >
+                      <span>Explore Creations</span>
+                      <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                    <button
+                      onClick={() => setIsCartOpen(true)}
+                      className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium text-sm backdrop-blur-sm transition-all"
+                    >
+                      View Shopping Bag ({totalItems})
+                    </button>
+                  </div>
+
+                  {/* Micro stats */}
+                  <div className="pt-8 border-t border-blue-900/40 grid grid-cols-3 gap-4 text-center lg:text-left">
+                    <div>
+                      <p className="text-2xl font-black text-white font-mono">100%</p>
+                      <p className="text-xs text-blue-300 font-medium uppercase tracking-wider">Swiss & Titanium</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-amber-400 font-mono">4.9 / 5</p>
+                      <p className="text-xs text-blue-300 font-medium uppercase tracking-wider">Verified Rating</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-blue-400 font-mono">3-Year</p>
+                      <p className="text-xs text-blue-300 font-medium uppercase tracking-wider">Atelier Warranty</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Featured Showcase Card */}
+                <div className="lg:col-span-5 flex justify-center">
+                  <div className="relative group w-full max-w-md bg-slate-900/90 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
+                    <div className="relative h-64 w-full rounded-xl overflow-hidden mb-5 bg-slate-950">
+                      <img
+                        src={PRODUCTS[0].image}
+                        alt={PRODUCTS[0].name}
+                        className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-3 left-3 bg-blue-700 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border border-blue-400/30">
+                        Flagship Pick
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">
+                          Mechanical Series 01
+                        </span>
+                        <span className="text-xs font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded border border-blue-800">
+                          Limited: 500 pcs
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold text-white">
+                        {PRODUCTS[0].name}
+                      </h3>
+                      <div className="flex items-baseline justify-between pt-2">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-2xl font-black text-white">${PRODUCTS[0].price}</span>
+                          <span className="text-sm text-slate-400 line-through">${PRODUCTS[0].originalPrice}</span>
+                        </div>
+                        <button
+                          onClick={() => addItem(PRODUCTS[0], 1, 'Royal Blue Dial')}
+                          className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Quick Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* Filter Bar */}
+          <div className="bg-white border-b border-slate-200/90 py-5 sticky top-20 z-30 shadow-sm backdrop-blur-md bg-white/95">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                
+                {/* Categories */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+                        selectedCategory === cat.id
+                          ? 'bg-blue-700 text-white shadow-royal-sm ring-2 ring-blue-700/20'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Right controls */}
+                <div className="flex items-center justify-between md:justify-end gap-3">
+                  {(selectedCategory !== 'All' || searchQuery) && (
+                    <button
+                      onClick={() => {
+                        setSelectedCategory('All');
+                        setSearchQuery('');
+                        setSortOption('featured');
+                      }}
+                      className="text-xs text-blue-700 hover:text-blue-900 font-semibold px-2.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200 transition-colors"
+                    >
+                      Reset Filters
+                    </button>
+                  )}
+
+                  <span className="text-xs text-slate-500 font-medium">
+                    Showing <span className="text-slate-900 font-bold">{filteredProducts.length}</span> of {PRODUCTS.length}
+                  </span>
+
+                  <select
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                    className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer"
+                  >
+                    <option value="featured">Featured Curations</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="rating">Highest Rating</option>
+                    <option value="newest">New Arrivals</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* Product Listing Space */}
+          <main id="catalog" className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+            {filteredProducts.length === 0 ? (
+              <div className="py-20 text-center max-w-md mx-auto px-4">
+                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                  🔍
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">No Creations Found</h3>
+                <p className="text-sm text-slate-500 mb-6">
+                  Try adjusting your search query or clear filters to view all atelier works.
+                </p>
+                <button
+                  onClick={() => {
+                    setSelectedCategory('All');
+                    setSearchQuery('');
+                  }}
+                  className="px-6 py-2.5 rounded-full bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold uppercase tracking-wider"
+                >
+                  View All Masterpieces
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredProducts.map((product) => {
+                  const defaultColor = product.colors ? product.colors[0]?.name : 'Default';
+                  return (
+                    <div
+                      key={product.id}
+                      onClick={() => setQuickViewProduct(product)}
+                      className="group bg-white rounded-2xl border border-slate-200/90 hover:border-blue-300 shadow-sm hover:shadow-royal-md transition-all duration-300 flex flex-col overflow-hidden cursor-pointer relative"
+                    >
+                      {/* Image */}
+                      <div className="relative aspect-square w-full overflow-hidden bg-slate-50">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                        />
+                        {product.badge && (
+                          <div className="absolute top-3 left-3">
+                            <span className="text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-1 rounded-full shadow-sm bg-blue-700 text-white border border-blue-400/40">
+                              {product.badge}
+                            </span>
+                          </div>
+                        )}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setQuickViewProduct(product);
+                          }}
+                          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-blue-700 shadow-sm transition-colors text-xs"
+                          title="Quick Preview"
+                        >
+                          👁
+                        </button>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-5 flex flex-col flex-grow justify-between gap-4">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-xs text-slate-500">
+                            <span className="font-semibold uppercase tracking-wider text-blue-700 text-[11px]">
+                              {product.category}
+                            </span>
+                            <div className="flex items-center gap-1 text-slate-700 font-bold">
+                              <span className="text-amber-400">★</span>
+                              <span>{product.rating}</span>
+                              <span className="text-slate-400 font-normal">({product.reviewsCount})</span>
+                            </div>
+                          </div>
+
+                          <h3 className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors text-base leading-snug line-clamp-1">
+                            {product.name}
+                          </h3>
+
+                          <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                            {product.tagline}
+                          </p>
+
+                          {product.colors && (
+                            <div className="pt-1 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                              <span className="text-[11px] text-slate-400 mr-1">Colors:</span>
+                              {product.colors.map((c) => (
+                                <span
+                                  key={c.name}
+                                  title={c.name}
+                                  className="w-3.5 h-3.5 rounded-full border border-slate-300"
+                                  style={{ backgroundColor: c.hex }}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Pricing & Add Button */}
+                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                          <div>
+                            <div className="flex items-baseline gap-1.5">
+                              <span className="text-xl font-extrabold text-slate-900 font-mono">
+                                ${product.price}
+                              </span>
+                              {product.originalPrice && (
+                                <span className="text-xs text-slate-400 line-through font-mono">
+                                  ${product.originalPrice}
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[10px] text-emerald-600 font-semibold block">Ready to Ship</span>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addItem(product, 1, defaultColor);
+                            }}
+                            className="px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all active:scale-95 shadow-sm hover:shadow-royal-sm flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <span>Add to Bag</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </main>
+
+          {/* CART SPACE: Slide-over Drawer */}
+          {isCartOpen && (
+            <div className="fixed inset-0 z-50 overflow-hidden">
+              <div
+                className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+                onClick={() => setIsCartOpen(false)}
+              />
+              <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+                <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between animate-slide-in border-l border-slate-200">
+                  
+                  {/* Cart Header */}
+                  <div className="p-6 border-b border-slate-200 bg-white">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                          🛍
+                        </div>
+                        <div>
+                          <h2 className="text-lg font-extrabold text-slate-900 font-sans tracking-tight">
+                            Shopping Bag
+                          </h2>
+                          <p className="text-xs text-slate-500 font-medium">
+                            {totalItems} {totalItems === 1 ? 'creation' : 'creations'} selected
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setIsCartOpen(false)}
+                        className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 text-lg"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* Free shipping meter */}
+                    <div className="mt-4 p-3 bg-blue-50/70 rounded-xl border border-blue-100">
+                      <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+                        {subtotal >= FREE_SHIPPING_GOAL ? (
+                          <span className="text-emerald-700 font-bold">
+                            ✓ Complimentary Express Delivery Unlocked!
+                          </span>
+                        ) : (
+                          <span className="text-blue-900">
+                            Add <span className="font-extrabold text-blue-700">${amountNeeded}</span> more for Free Express Delivery
+                          </span>
+                        )}
+                        <span className="text-blue-700 font-mono text-[11px] font-bold">
+                          {progressPercent}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-blue-200/60 rounded-full h-2 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-blue-600 to-indigo-600 h-2 rounded-full transition-all duration-500 ease-out"
+                          style={{ width: `${progressPercent}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Cart Items List */}
+                  <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    {items.length === 0 ? (
+                      <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 text-2xl">
+                          🛍
+                        </div>
+                        <h3 className="text-base font-bold text-slate-900 mb-1">
+                          Your bag is currently empty
+                        </h3>
+                        <p className="text-xs text-slate-500 max-w-xs mb-6">
+                          Explore our signature timepieces, acoustic audio, and luxury lifestyle pieces.
+                        </p>
+                        <button
+                          onClick={() => setIsCartOpen(false)}
+                          className="px-6 py-2.5 rounded-full bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold uppercase tracking-wider"
+                        >
+                          Explore Boutique
+                        </button>
+                      </div>
+                    ) : (
+                      items.map((item) => (
+                        <div
+                          key={`${item.product.id}-${item.selectedColor}`}
+                          className="flex gap-4 p-3.5 rounded-xl border border-slate-200/90 hover:border-blue-200 bg-white transition-all shadow-sm"
+                        >
+                          <img
+                            src={item.product.image}
+                            alt={item.product.name}
+                            className="w-20 h-20 rounded-lg object-cover bg-slate-100 flex-shrink-0"
+                          />
+                          <div className="flex-1 flex flex-col justify-between">
+                            <div>
+                              <div className="flex items-start justify-between gap-1">
+                                <h4 className="text-xs font-bold text-slate-900 leading-snug line-clamp-1">
+                                  {item.product.name}
+                                </h4>
+                                <button
+                                  onClick={() => removeItem(item.product.id, item.selectedColor)}
+                                  className="text-slate-400 hover:text-rose-600 text-xs p-0.5"
+                                  title="Remove"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                              {item.selectedColor && (
+                                <p className="text-[11px] text-blue-700 font-medium mt-0.5">
+                                  Variant: {item.selectedColor}
+                                </p>
+                              )}
+                            </div>
+
+                            <div className="flex items-center justify-between pt-2">
+                              <div className="flex items-center border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item.product.id, item.quantity - 1, item.selectedColor)
+                                  }
+                                  className="px-2 py-1 text-slate-600 hover:text-blue-700 hover:bg-slate-200"
+                                >
+                                  -
+                                </button>
+                                <span className="px-2 text-xs font-bold text-slate-800 font-mono">
+                                  {item.quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    updateQuantity(item.product.id, item.quantity + 1, item.selectedColor)
+                                  }
+                                  className="px-2 py-1 text-slate-600 hover:text-blue-700 hover:bg-slate-200"
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <span className="text-sm font-extrabold text-slate-900 font-mono">
+                                ${item.product.price * item.quantity}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Cart Footer Summary */}
+                  {items.length > 0 && (
+                    <div className="p-6 border-t border-slate-200 bg-slate-50 space-y-4">
+                      {/* Promo Form */}
+                      <div>
+                        {!appliedPromo ? (
+                          <form onSubmit={applyPromo} className="flex gap-2">
+                            <input
+                              type="text"
+                              placeholder="Promo (ROYAL20)"
+                              value={promoInput}
+                              onChange={(e) => setPromoInput(e.target.value)}
+                              className="flex-1 px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 uppercase font-medium"
+                            />
+                            <button
+                              type="submit"
+                              className="px-4 py-2 bg-slate-900 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                            >
+                              Apply
+                            </button>
+                          </form>
+                        ) : (
+                          <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+                            <span>Coupon &apos;{appliedPromo}&apos; active (-{discountPercent * 100}%)</span>
+                            <button onClick={removePromo} className="text-xs text-rose-600 hover:underline font-bold">
+                              Remove
+                            </button>
+                          </div>
+                        )}
+                        {promoError && (
+                          <p className="text-[11px] text-rose-600 mt-1 font-medium">{promoError}</p>
+                        )}
+                        {!appliedPromo && (
+                          <div className="flex items-center gap-2 mt-1.5 text-[10px] text-slate-500">
+                            <span>Try:</span>
+                            <button
+                              onClick={() => setPromoInput('ROYAL20')}
+                              className="text-blue-700 font-bold hover:underline"
+                            >
+                              ROYAL20 (-20%)
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Calculations */}
+                      <div className="space-y-1.5 text-xs text-slate-600 pt-1">
+                        <div className="flex justify-between">
+                          <span>Subtotal</span>
+                          <span className="font-semibold text-slate-900 font-mono">${subtotal}</span>
+                        </div>
+                        {discount > 0 && (
+                          <div className="flex justify-between text-emerald-700 font-semibold">
+                            <span>Royal Discount</span>
+                            <span className="font-mono">-${discount}</span>
+                          </div>
+                        )}
+                        <div className="flex justify-between">
+                          <span>Express Courier</span>
+                          <span className="font-semibold text-slate-900 font-mono">
+                            {shipping === 0 ? <span className="text-emerald-700 uppercase font-bold text-[11px]">Free</span> : `$${shipping}`}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-base font-extrabold text-slate-900 pt-2 border-t border-slate-200">
+                          <span>Estimated Total</span>
+                          <span className="font-mono text-blue-700 text-lg">${finalTotal}</span>
+                        </div>
+                      </div>
+
+                      {/* Checkout Button */}
+                      <button
+                        onClick={() => {
+                          setIsCartOpen(false);
+                          setIsCheckoutOpen(true);
+                        }}
+                        className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white font-bold text-sm tracking-wide uppercase shadow-royal-md transition-all cursor-pointer"
+                      >
+                        Proceed to Royal Checkout →
+                      </button>
+
+                      <div className="flex items-center justify-center gap-3 text-[10px] text-slate-400 font-medium">
+                        <span>🔒 256-Bit SSL Encrypted</span>
+                        <span>•</span>
+                        <span>30-Day Royal Guarantee</span>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* QUICK VIEW MODAL */}
+          {quickViewProduct && (
+            <div className="fixed inset-0 z-50 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <div
+                  className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm"
+                  onClick={() => setQuickViewProduct(null)}
+                />
+                <div className="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl sm:my-8 sm:w-full sm:max-w-3xl border border-slate-200 z-10">
+                  <button
+                    onClick={() => setQuickViewProduct(null)}
+                    className="absolute right-4 top-4 z-20 rounded-full bg-slate-100 p-2 text-slate-500 hover:text-slate-900"
+                  >
+                    ✕
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="h-72 md:h-full bg-slate-100 overflow-hidden">
+                      <img
+                        src={quickViewProduct.image}
+                        alt={quickViewProduct.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-6 md:p-8 space-y-4">
+                      <div>
+                        <span className="text-xs font-bold uppercase tracking-widest text-blue-700">
+                          {quickViewProduct.category}
+                        </span>
+                        <h2 className="text-xl font-extrabold text-slate-900 mt-1">
+                          {quickViewProduct.name}
+                        </h2>
+                        <div className="flex items-baseline gap-2 mt-2">
+                          <span className="text-2xl font-black text-slate-900 font-mono">
+                            ${quickViewProduct.price}
+                          </span>
+                          {quickViewProduct.originalPrice && (
+                            <span className="text-xs text-slate-400 line-through font-mono">
+                              ${quickViewProduct.originalPrice}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {quickViewProduct.description}
+                      </p>
+
+                      {quickViewProduct.specs && (
+                        <div className="pt-2 border-t border-slate-100 text-xs space-y-1">
+                          {Object.entries(quickViewProduct.specs).map(([k, v]) => (
+                            <div key={k} className="flex justify-between py-0.5">
+                              <span className="text-slate-500">{k}:</span>
+                              <span className="font-semibold text-slate-800">{v}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          addItem(quickViewProduct, 1);
+                          setQuickViewProduct(null);
+                        }}
+                        className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs uppercase tracking-wider shadow-royal-sm transition-all cursor-pointer"
+                      >
+                        Add to Shopping Bag
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* CHECKOUT MODAL */}
+          {isCheckoutOpen && (
+            <div className="fixed inset-0 z-50 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <div
+                  className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm"
+                  onClick={() => {
+                    setIsCheckoutOpen(false);
+                    setOrderConfirmed(false);
+                  }}
+                />
+                <div className="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl sm:my-8 sm:w-full sm:max-w-xl border border-slate-200 z-10 p-6 sm:p-8">
+                  <button
+                    onClick={() => {
+                      setIsCheckoutOpen(false);
+                      setOrderConfirmed(false);
+                    }}
+                    className="absolute right-4 top-4 rounded-full bg-slate-100 p-2 text-slate-500 hover:text-slate-900"
+                  >
+                    ✕
+                  </button>
+
+                  {orderConfirmed ? (
+                    <div className="text-center py-6 space-y-5">
+                      <div className="w-16 h-16 bg-blue-50 text-blue-700 rounded-2xl flex items-center justify-center mx-auto text-3xl border border-blue-200">
+                        ✓
+                      </div>
+                      <h3 className="text-2xl font-extrabold text-slate-900">
+                        Thank You for Your Order
+                      </h3>
+                      <p className="text-xs text-slate-600 max-w-sm mx-auto">
+                        Your transaction has completed under order reference{' '}
+                        <span className="font-mono font-bold text-blue-700">{orderId}</span>.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setIsCheckoutOpen(false);
+                          setOrderConfirmed(false);
+                        }}
+                        className="px-6 py-3 rounded-full bg-blue-700 text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
+                      >
+                        Return to Boutique
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleOrderSubmit} className="space-y-4">
+                      <div className="border-b border-slate-200 pb-3">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                          🔒 Sovereign Express Checkout
+                        </span>
+                        <h3 className="text-xl font-extrabold text-slate-900">
+                          Order Dispatch Details
+                        </h3>
+                      </div>
+
+                      <div className="bg-blue-50/60 p-3 rounded-xl border border-blue-100 flex justify-between items-center text-xs">
+                        <span className="font-semibold text-slate-800">Total Due ({totalItems} items):</span>
+                        <span className="text-lg font-black text-blue-800 font-mono">${finalTotal}</span>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={checkoutForm.name}
+                          onChange={(e) => setCheckoutForm({ ...checkoutForm, name: e.target.value })}
+                          className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">Delivery Address</label>
+                        <input
+                          type="text"
+                          required
+                          value={checkoutForm.address}
+                          onChange={(e) => setCheckoutForm({ ...checkoutForm, address: e.target.value })}
+                          className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-600 mb-1">City</label>
+                          <input
+                            type="text"
+                            required
+                            value={checkoutForm.city}
+                            onChange={(e) => setCheckoutForm({ ...checkoutForm, city: e.target.value })}
+                            className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-600 mb-1">Postal Code</label>
+                          <input
+                            type="text"
+                            required
+                            value={checkoutForm.postalCode}
+                            onChange={(e) => setCheckoutForm({ ...checkoutForm, postalCode: e.target.value })}
+                            className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none font-mono"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="p-3 border border-blue-200 rounded-xl bg-blue-50/20 space-y-2">
+                        <label className="block text-[11px] font-semibold text-slate-600">Simulated Card</label>
+                        <input
+                          type="text"
+                          required
+                          value={checkoutForm.cardNumber}
+                          onChange={(e) => setCheckoutForm({ ...checkoutForm, cardNumber: e.target.value })}
+                          className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg font-mono bg-white"
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isProcessingOrder}
+                        className="w-full py-3.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs uppercase tracking-wider shadow-royal-md transition-all cursor-pointer disabled:opacity-75"
+                      >
+                        {isProcessingOrder ? 'Authorizing Royal Transaction...' : `Confirm Order ($${finalTotal})`}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TOAST NOTIFICATION */}
+          {toastMessage && (
+            <div className="fixed bottom-6 right-6 z-50">
+              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-slate-900 text-white shadow-2xl border border-blue-500/40">
+                <span className="text-blue-400">✓</span>
+                <span className="text-xs font-semibold">{toastMessage}</span>
+              </div>
+            </div>
+          )}
+
+          {/* FOOTER */}
+          <footer className="bg-slate-950 text-white border-t border-blue-900/50 pt-16 pb-12 mt-auto">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div className="col-span-2 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-700 flex items-center justify-center font-bold text-white">
+                      R
+                    </div>
+                    <span className="font-extrabold text-lg tracking-tight">ROYAL COBALT</span>
+                  </div>
+                  <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
+                    Dedicated to the art of timeless design, royal blue aesthetics, and masterwork engineering across horology, audio, and modern accessories.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Atelier</h4>
+                  <ul className="space-y-2 text-xs text-slate-400">
+                    <li>Automatic Timepieces</li>
+                    <li>Studio Acoustics</li>
+                    <li>Titanium Tech</li>
+                    <li>Cashmere Apparel</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">Guarantees</h4>
+                  <ul className="space-y-2 text-xs text-slate-400">
+                    <li>Complimentary Express Shipping</li>
+                    <li>3-Year Atelier Warranty</li>
+                    <li>30-Day Courtesy Returns</li>
+                    <li>256-Bit Encrypted Checkout</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="pt-8 border-t border-slate-900 text-xs text-slate-500 text-center">
+                © 2026 ROYAL COBALT MAISON INC. ALL RIGHTS RESERVED.
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
+

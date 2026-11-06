@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexander Vance — Creative Technologist & Principal Design Architect</title>
+  <meta name="description" content="Award-winning portfolio of Alexander Vance. Principal Creative Technologist & Design Architect crafting immersive digital flagships, experimental WebGL 3D, and high-performance brand ecosystems.">
+  <meta name="theme-color" content="#070709">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Alexander Vance — Creative Technologist & Principal Design Architect">
+  <meta property="og:description" content="Architecting digital monuments at the intersection of code, sensory design, and hyper-luxury commerce.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23070709'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23d4ff3f'/%3E%3C/svg%3E">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Film Grain Noise Texture -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Interactive Generative Background Canvas -->
+  <canvas id="webgl-canvas" aria-hidden="true"></canvas>
+
+  <!-- Custom Luxury Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-follower" aria-hidden="true">
+    <span class="cursor-label"></span>
+  </div>
+
+  <!-- Toast Notification for Email Copy -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- =======================================================================
+       SITE HEADER & NAVIGATION
+       ======================================================================= -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <!-- Monogram Brand -->
+      <a href="#" class="brand-monogram" data-cursor="AV">
+        <span>ALEXANDER VANCE</span>
+        <span class="badge-num">01</span>
+      </a>
+
+      <!-- Real-Time World Location & Clock -->
+      <div class="nav-location">
+        <span class="pulse-dot"></span>
+        <span id="live-time-display">ZRH 10:34:00 CET</span>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <a href="#work" class="nav-link" data-cursor="ARCHIVE"><span>01</span>WORK</a>
+        <a href="#philosophy" class="nav-link" data-cursor="ESSENCE"><span>02</span>PHILOSOPHY</a>
+        <a href="#expertise" class="nav-link" data-cursor="SKILLS"><span>03</span>EXPERTISE</a>
+        <a href="#timeline" class="nav-link" data-cursor="HONORS"><span>04</span>TIMELINE</a>
+        <a href="#services" class="nav-link" data-cursor="OFFERINGS"><span>05</span>SERVICES</a>
+        <a href="#contact" class="nav-link" data-cursor="CONNECT"><span>06</span>CONTACT</a>
+      </nav>
+
+      <!-- Right Actions: Sound Toggle & Menu Toggle -->
+      <div class="nav-actions">
+        <button id="sound-toggle" class="sound-toggle" aria-label="Toggle ambient sensory sound" data-cursor="AUDIO">
+          <div class="audio-bars" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="sound-label">SOUND: OFF</span>
+        </button>
+
+        <button id="menu-toggle" class="menu-toggle" aria-label="Open mobile navigation menu">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fullscreen Mobile Navigation Drawer -->
+  <div id="mobile-drawer" class="mobile-drawer" aria-hidden="true">
+    <div class="mobile-nav-links">
+      <a href="#work" class="mobile-nav-link">01. WORK</a>
+      <a href="#philosophy" class="mobile-nav-link">02. PHILOSOPHY</a>
+      <a href="#expertise" class="mobile-nav-link">03. EXPERTISE</a>
+      <a href="#timeline" class="mobile-nav-link">04. TIMELINE</a>
+      <a href="#services" class="mobile-nav-link">05. SERVICES</a>
+      <a href="#contact" class="mobile-nav-link">06. CONTACT</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- =====================================================================
+         HERO SECTION
+         ===================================================================== -->
+    <section class="hero-section section">
+      <div class="container">
+        <!-- Top Meta Bar -->
+        <div class="hero-meta-top reveal-item">
+          <div class="hero-subtitle-pill">
+            <span class="dot-live"></span>
+            <span>AVAILABLE FOR SELECT Q1/Q2 COMMISSIONS</span>
+          </div>
+
+          <!-- Dynamic Kinetic Ticker Badge -->
+          <div class="hero-ticker-badge" data-cursor="FOCUS">
+            <span class="font-mono">FOCUS:</span>
+            <span id="hero-ticker-text" class="ticker-text">CREATIVE DIRECTION & 3D</span>
+          </div>
+        </div>
+
+        <!-- Oversized Editorial Typography Name -->
+        <div class="hero-headline-wrap reveal-item reveal-delay-1">
+          <div class="hero-name-row">
+            <h1 class="hero-name">
+              ALEXANDER<br>
+              <span class="outline-text">VANCE</span>
+            </h1>
+            <span class="accent-star">✦</span>
+          </div>
+        </div>
+
+        <!-- 2-Column Split Editorial Content -->
+        <div class="hero-content-grid">
+          <div class="hero-bio-col reveal-item reveal-delay-2">
+            <p class="hero-bio-lead">
+              Principal Creative Technologist and Design Architect. Architecting <strong>transcendent digital monuments</strong>, sensory WebGL environments, and high-performance brand ecosystems at the intersection of avant-garde art and bulletproof systems.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#work" class="magnetic-btn btn-primary" data-cursor="EXPLORE">
+                <span>Explore Selected Archive</span>
+                <svg class="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+
+              <a href="#contact" class="magnetic-btn btn-secondary" data-cursor="CONNECT">
+                <span>Initiate Inquiry</span>
+                <svg class="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Editorial Visual Artwork Card -->
+          <div class="hero-visual-col reveal-item reveal-delay-3">
+            <div class="hero-visual-card" data-cursor="AV / 01">
+              <div class="hero-visual-inner">
+                <!-- Custom SVG Generative Graphic Portrait / Sculpture -->
+                <svg class="hero-artwork-svg" viewBox="0 0 600 750" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="portraitGlow" cx="50%" cy="40%" r="65%">
+                      <stop offset="0%" stop-color="#222332"/>
+                      <stop offset="60%" stop-color="#0f1016"/>
+                      <stop offset="100%" stop-color="#060608"/>
+                    </radialGradient>
+                    <linearGradient id="neonBeam" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#d4ff3f" stop-opacity="0.9"/>
+                      <stop offset="100%" stop-color="#38ef7d" stop-opacity="0.2"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#portraitGlow)"/>
+                  <!-- Abstract Sculptural Wireframe & Architectural Geometry -->
+                  <circle cx="300" cy="330" r="180" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+                  <circle cx="300" cy="330" r="140" fill="none" stroke="rgba(212,255,63,0.3)" stroke-width="1.5" stroke-dasharray="3 6"/>
+                  <ellipse cx="300" cy="330" rx="190" ry="85" fill="none" stroke="url(#neonBeam)" stroke-width="2" transform="rotate(-25 300 330)"/>
+                  <ellipse cx="300" cy="330" rx="190" ry="85" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" transform="rotate(35 300 330)"/>
+                  <!-- Center Core Monolith -->
+                  <polygon points="300,190 390,340 300,450 210,340" fill="#151722" stroke="rgba(212,255,63,0.6)" stroke-width="2"/>
+                  <circle cx="300" cy="330" r="24" fill="#d4ff3f"/>
+                  <!-- Coordinate Callouts -->
+                  <text x="30" y="50" font-family="'JetBrains Mono', monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">LAT 47°22'N // LONG 8°32'E</text>
+                  <text x="30" y="70" font-family="'JetBrains Mono', monospace" font-size="11" fill="#d4ff3f" letter-spacing="2">SYS.STATE: CALIBRATED 60FPS</text>
+                </svg>
+
+                <div class="hero-card-meta">
+                  <div>
+                    <div class="meta-title">Alexander Vance</div>
+                    <div class="meta-sub">Zurich & San Francisco</div>
+                  </div>
+                  <div class="font-mono" style="color: var(--accent-lime); font-size: 0.75rem;">
+                    [ 01 / ARTIFACT ]
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Laurels & Honours Banner -->
+        <div class="hero-trust-bar reveal-item">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+            <span>AWWWARDS SITE OF THE DAY × 4</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>THE FWA OF THE MONTH & DAY</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34c0-.52.27-1 .7-1.28L8 12.5"></path><path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34c0-.52-.27-1-.7-1.28L16 12.5"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+            <span>THE WEBBY HONOREE 2025</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <span>TOKYO TDC ANNUAL BOOK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         ABOUT & CREATIVE PHILOSOPHY SECTION
+         ===================================================================== -->
+    <section id="philosophy" class="section">
+      <div class="container">
+        <div class="section-label reveal-item">01 / ESSENCE & PHILOSOPHY</div>
+
+        <div class="about-grid">
+          <!-- Left Column: Quote & Narrative -->
+          <div class="about-narrative reveal-item">
+            <h2 class="about-quote">
+              “We do not simply build websites. We sculpt digital architectures that evoke desire, provoke curiosity, and leave indelible impressions.”
+            </h2>
+
+            <p>
+              Navigating the delicate equilibrium where <strong>traditional Swiss graphic rigor</strong> meets high-throughput computational engineering. Over the past decade, I have partnered with avant-garde cultural foundations, iconic luxury ateliers, and category-defining technology pioneers to translate complex ideas into sensory online experiences.
+            </p>
+
+            <p>
+              Every interaction is considered a tactile gesture. Every millisecond of latency eliminated is an act of curatorial respect. When sound, physics, typography, and raw performance align, the browser ceases to be a screen—it becomes a spatial stage.
+            </p>
+
+            <!-- 3 Core Philosophy Pillars -->
+            <div class="philosophy-cards">
+              <div class="pillar-card" data-cursor="RIGOR">
+                <div class="pillar-num">01</div>
+                <div class="pillar-info">
+                  <h4>Radical Reduction</h4>
+                  <p>Eliminating superficial decorative noise until only pure resonance, razor-sharp typography, and profound intentionality remain.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card" data-cursor="PHYSICS">
+                <div class="pillar-num">02</div>
+                <div class="pillar-info">
+                  <h4>Sensory Performance</h4>
+                  <p>60fps micro-interactions, responsive physics, and generative audio designed as an emotional medium, not an afterthought.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card" data-cursor="SCALE">
+                <div class="pillar-num">03</div>
+                <div class="pillar-info">
+                  <h4>Engineered Longevity</h4>
+                  <p>Timeless visual art direction engineered upon bulletproof, maintainable code architectures that transcend fleeting trends.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Personal Statement & Animated Statistics -->
+          <div class="about-stats-col reveal-item reveal-delay-2">
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px; padding: clamp(2rem, 4vw, 3rem); margin-bottom: 2rem;">
+              <div class="font-mono" style="color: var(--accent-lime); margin-bottom: 1rem;">// INDIVIDUALITY & MANIFESTO</div>
+              <p style="font-size: 1.15rem; color: #fff; line-height: 1.7; margin-bottom: 1.5rem;">
+                "I believe the modern web has succumbed to homogenization: identical sans-serif cards, formulaic SaaS templates, and sterile predictability. My mission is to reclaim the web as a playground for breathtaking digital craftsmanship."
+              </p>
+              <div class="font-mono" style="font-size: 0.78rem; color: var(--text-secondary);">
+                — ALEXANDER VANCE, PRINCIPAL
+              </div>
+            </div>
+
+            <!-- Live Animated Statistics Counter -->
+            <div class="stats-strip">
+              <div class="stat-item">
+                <div class="stat-number-wrap">
+                  <span class="stat-count" data-target="9">00</span>
+                  <span class="stat-suffix">+</span>
+                </div>
+                <span class="stat-label">Years of Craft</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-number-wrap">
+                  <span class="stat-count" data-target="48">00</span>
+                  <span class="stat-suffix">+</span>
+                </div>
+                <span class="stat-label">Artifacts Built</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-number-wrap">
+                  <span class="stat-count" data-target="16">00</span>
+                  <span class="stat-suffix"></span>
+                </div>
+                <span class="stat-label">Global Awards</span>
+              </div>
+
+              <div class="stat-item">
+                <div class="stat-number-wrap">
+                  <span class="stat-count" data-target="99.8">00.0</span>
+                  <span class="stat-suffix">%</span>
+                </div>
+                <span class="stat-label">Avg. Lighthouse</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         SKILLS & TECHNICAL EXPERTISE SECTION
+         ===================================================================== -->
+    <section id="expertise" class="section">
+      <div class="container">
+        <div class="section-label reveal-item">02 / TECHNICAL & CREATIVE ARSENAL</div>
+        <h2 class="section-title reveal-item">MASTERY ENGINEERED AT THE HIGHEST RESOLUTION.</h2>
+        <p class="section-desc reveal-item">
+          Bridging design leadership with low-level systems engineering. Delivering turnkey experiences from initial aesthetic ontology to 60fps production deployments.
+        </p>
+
+        <div class="skills-grid">
+          <!-- Domain 1 -->
+          <div class="skill-domain-card reveal-item" data-cursor="SYSTEMS">
+            <div class="domain-header">
+              <div class="domain-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              </div>
+              <span class="domain-code">[ DOMAIN 01 ]</span>
+            </div>
+            <h3 class="domain-title">Creative Direction & Spatial Branding</h3>
+            <p class="domain-desc">
+              Holistic visual architecture, avant-garde typography hierarchies, dynamic art direction, and modular design systems that scale across global enterprises.
+            </p>
+            <div class="skill-tags-cloud">
+              <span class="tech-tag">Design Systems</span>
+              <span class="tech-tag">Editorial Typography</span>
+              <span class="tech-tag">Art Direction</span>
+              <span class="tech-tag">Motion Choreography</span>
+              <span class="tech-tag">Figma Tokens</span>
+            </div>
+            <div class="domain-metrics">
+              <div class="metric-bar-row">
+                <div class="metric-info">
+                  <span>Architecture & Concept</span>
+                  <span>98%</span>
+                </div>
+                <div class="metric-track"><div class="metric-fill" style="width: 98%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Domain 2 -->
+          <div class="skill-domain-card reveal-item reveal-delay-1" data-cursor="FRONTEND">
+            <div class="domain-header">
+              <div class="domain-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <span class="domain-code">[ DOMAIN 02 ]</span>
+            </div>
+            <h3 class="domain-title">Design Engineering & Frontend Systems</h3>
+            <p class="domain-desc">
+              High-throughput client architectures, modern TypeScript, resilient state machines, headless commerce integrations, and extreme web performance tuning.
+            </p>
+            <div class="skill-tags-cloud">
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Next.js / React</span>
+              <span class="tech-tag">Modern CSS/SCSS</span>
+              <span class="tech-tag">Web Workers</span>
+              <span class="tech-tag">SSR & Edge Runtimes</span>
+            </div>
+            <div class="domain-metrics">
+              <div class="metric-bar-row">
+                <div class="metric-info">
+                  <span>Engineering & Optimization</span>
+                  <span>96%</span>
+                </div>
+                <div class="metric-track"><div class="metric-fill" style="width: 96%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Domain 3 -->
+          <div class="skill-domain-card reveal-item reveal-delay-2" data-cursor="WEBGL">
+            <div class="domain-header">
+              <div class="domain-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </div>
+              <span class="domain-code">[ DOMAIN 03 ]</span>
+            </div>
+            <h3 class="domain-title">Experimental 3D & GLSL Shaders</h3>
+            <p class="domain-desc">
+              Real-time WebGL rendering, custom vertex and fragment shaders, procedural particle dynamics, volumetric lighting, and interactive spatial computation.
+            </p>
+            <div class="skill-tags-cloud">
+              <span class="tech-tag">Three.js</span>
+              <span class="tech-tag">GLSL Shaders</span>
+              <span class="tech-tag">Post-Processing</span>
+              <span class="tech-tag">Generative Geometry</span>
+              <span class="tech-tag">Mathematical Motion</span>
+            </div>
+            <div class="domain-metrics">
+              <div class="metric-bar-row">
+                <div class="metric-info">
+                  <span>3D & Real-time Shaders</span>
+                  <span>94%</span>
+                </div>
+                <div class="metric-track"><div class="metric-fill" style="width: 94%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Domain 4 -->
+          <div class="skill-domain-card reveal-item reveal-delay-3" data-cursor="SENSORY">
+            <div class="domain-header">
+              <div class="domain-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+              </div>
+              <span class="domain-code">[ DOMAIN 04 ]</span>
+            </div>
+            <h3 class="domain-title">Sensory Audio & Interaction Science</h3>
+            <p class="domain-desc">
+              In-browser sound synthesis via Web Audio API, cursor magnetic physics, gesture friction modeling, and frictionless micro-haptics.
+            </p>
+            <div class="skill-tags-cloud">
+              <span class="tech-tag">Web Audio API</span>
+              <span class="tech-tag">Oscillator Synthesis</span>
+              <span class="tech-tag">Gesture Physics</span>
+              <span class="tech-tag">A11y Accessibility</span>
+              <span class="tech-tag">Sensory UX</span>
+            </div>
+            <div class="domain-metrics">
+              <div class="metric-bar-row">
+                <div class="metric-info">
+                  <span>Sensory Interaction</span>
+                  <span>95%</span>
+                </div>
+                <div class="metric-track"><div class="metric-fill" style="width: 95%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         FEATURED PROJECTS (AWWWARDS EDITORIAL CENTERPIECE)
+         ===================================================================== -->
+    <section id="work" class="section">
+      <div class="container">
+        <div class="projects-header-row">
+          <div>
+            <div class="section-label reveal-item">03 / SELECTED ARCHIVE (2023 - 2026)</div>
+            <h2 class="section-title reveal-item" style="margin-bottom: 0;">GROUNDBREAKING DIGITAL FLAGSHIPS.</h2>
+          </div>
+
+          <!-- Category Filter Tabs -->
+          <div class="filter-tabs reveal-item">
+            <button class="filter-btn active" data-filter="all">ALL WORKS</button>
+            <button class="filter-btn" data-filter="webgl">WEBGL & 3D</button>
+            <button class="filter-btn" data-filter="luxury">LUXURY COMMERCE</button>
+            <button class="filter-btn" data-filter="audio">SENSORY AUDIO</button>
+            <button class="filter-btn" data-filter="systems">SYSTEMS</button>
+          </div>
+        </div>
+
+        <!-- Asymmetric Editorial Projects Grid -->
+        <div class="projects-editorial-grid">
+
+          <!-- PROJECT 01: KRONOS (Hero Case Study Spanning Full Width) -->
+          <article class="project-card case-hero reveal-item" data-project="kronos" data-category="webgl luxury" data-cursor="CASE 01">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>AWWWARDS SOTD & FWA</span>
+              </div>
+              <!-- Generative SVG Mockup Artwork -->
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="kbg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#14141d"/><stop offset="100%" stop-color="#07070a"/>
+                  </radialGradient>
+                  <linearGradient id="klg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#d4ff3f"/><stop offset="100%" stop-color="#38ef7d"/>
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#kbg)"/>
+                <circle cx="600" cy="375" r="250" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+                <circle cx="600" cy="375" r="220" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4 8"/>
+                <circle cx="600" cy="375" r="160" fill="none" stroke="url(#klg)" stroke-width="2.5" opacity="0.9"/>
+                <g transform="translate(600, 375)">
+                  <circle cx="0" cy="0" r="90" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                  <path d="M-60,0 L60,0 M0,-60 L0,60 M-45,-45 L45,45 M-45,45 L45,-45" stroke="rgba(212,255,63,0.4)" stroke-width="1.5"/>
+                  <circle cx="0" cy="0" r="30" fill="#181824" stroke="url(#klg)" stroke-width="2"/>
+                  <circle cx="0" cy="0" r="10" fill="#d4ff3f"/>
+                  <path d="M0,-235 L0,-215 M235,0 L215,0 M0,235 L0,215 M-235,0 L-215,0" stroke="#d4ff3f" stroke-width="3"/>
+                </g>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#d4ff3f">CALIBRE 01 / TOURBILLON ARCHIVE</text>
+              </svg>
+
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 01 / 06 ]</span>
+                  <span class="project-category">LUXURY COMMERCE & 3D</span>
+                </div>
+                <h3 class="project-heading">Kronos Haute Horlogerie</h3>
+                <p class="project-summary">
+                  An uncompromising WebGL timekeeper gallery featuring real-time sapphire refraction, micro-mechanical escapement physics, and binaural audio synthesis.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">+240%</div>
+                  <div class="metric-text">Avg. Time On Site & 68% Surge in Private Atelier Inquiries</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">Three.js</span>
+                  <span class="tech-tag">Custom GLSL</span>
+                  <span class="tech-tag">Web Audio API</span>
+                  <span class="tech-tag">Next.js</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- PROJECT 02: AURA KINETIC SOUND ENGINE -->
+          <article class="project-card case-reverse reveal-item" data-project="aura" data-category="audio webgl" data-cursor="CASE 02">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>THE WEBBY HONOREE</span>
+              </div>
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="abg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#181412"/><stop offset="100%" stop-color="#080706"/>
+                  </radialGradient>
+                  <linearGradient id="agrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#ff9d3b"/><stop offset="50%" stop-color="#d4ff3f"/><stop offset="100%" stop-color="#38ef7d"/>
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#abg)"/>
+                <g fill="none" stroke="url(#agrad)" stroke-width="1.8" opacity="0.85">
+                  <path d="M100,375 Q 250,150 400,375 T 700,375 T 1000,375 T 1100,375" />
+                  <path d="M100,375 Q 250,220 400,375 T 700,375 T 1000,375 T 1100,375" opacity="0.5"/>
+                  <path d="M100,375 Q 250,520 400,375 T 700,375 T 1000,375 T 1100,375" opacity="0.4"/>
+                  <path d="M100,375 Q 350,100 600,375 T 1100,375" stroke="#ff9d3b" opacity="0.7"/>
+                </g>
+                <circle cx="400" cy="375" r="16" fill="#0b0b10" stroke="#ff9d3b" stroke-width="2"/>
+                <circle cx="700" cy="375" r="22" fill="#0b0b10" stroke="#d4ff3f" stroke-width="2"/>
+                <circle cx="1000" cy="375" r="12" fill="#0b0b10" stroke="#38ef7d" stroke-width="2"/>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#ff9d3b">HARMONIC RESONANCE 432HZ / WORKBENCH</text>
+              </svg>
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 02 / 06 ]</span>
+                  <span class="project-category">EXPERIMENTAL AUDIO & GL</span>
+                </div>
+                <h3 class="project-heading">Aura Kinetic Sound Engine</h3>
+                <p class="project-summary">
+                  Algorithmic frequency workbench where user gesture trajectories sculpt polyphonic FM synthesis and real-time chromatic harmonic visualizers.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">120k+</div>
+                  <div class="metric-text">Active Sonic Sessions in Month 01 • Fast Company Design</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">Web Audio API</span>
+                  <span class="tech-tag">AudioWorklet</span>
+                  <span class="tech-tag">Canvas WebGL</span>
+                  <span class="tech-tag">TypeScript</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- PROJECT 03: NEO-TOKYO MONOLITH -->
+          <article class="project-card case-hero reveal-item" data-project="neo-tokyo" data-category="webgl" data-cursor="CASE 03">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>TOKYO TDC SELECTION</span>
+              </div>
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="tbg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#12131a"/><stop offset="100%" stop-color="#050608"/>
+                  </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#tbg)"/>
+                <polygon points="600,120 780,260 780,620 600,500" fill="#181a24" stroke="rgba(255,255,255,0.15)"/>
+                <polygon points="600,120 420,260 420,620 600,500" fill="#101118" stroke="rgba(255,255,255,0.12)"/>
+                <polygon points="600,120 780,260 600,320 420,260" fill="#242838" stroke="rgba(212,255,63,0.5)"/>
+                <line x1="600" y1="120" x2="600" y2="500" stroke="#d4ff3f" stroke-width="2"/>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#d4ff3f">SPATIAL PAVILION // TOKYO BIENNIAL</text>
+              </svg>
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 03 / 06 ]</span>
+                  <span class="project-category">SPATIAL ARCHITECTURE & WEBGL</span>
+                </div>
+                <h3 class="project-heading">Neo-Tokyo Monolith</h3>
+                <p class="project-summary">
+                  An infinite virtual pavilion showcasing unbuilt brutalist megastructures in brutalist editorial contrast with volumetric atmospheric rain shaders.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">420k+</div>
+                  <div class="metric-text">Virtual Pavilion Attendees • Zero GPU Frame Drops</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">WebGL</span>
+                  <span class="tech-tag">Volumetric Shaders</span>
+                  <span class="tech-tag">GSAP ScrollTrigger</span>
+                  <span class="tech-tag">Vite</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- PROJECT 04: VAULT CYBERNETICS -->
+          <article class="project-card case-reverse reveal-item" data-project="vault" data-category="systems luxury" data-cursor="CASE 04">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>AWWWARDS SOTD</span>
+              </div>
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="vbg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#0e161c"/><stop offset="100%" stop-color="#05080c"/>
+                  </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#vbg)"/>
+                <g stroke="rgba(56, 239, 125, 0.2)" stroke-width="1" stroke-dasharray="6 6">
+                  <line x1="200" y1="100" x2="200" y2="650"/>
+                  <line x1="600" y1="100" x2="600" y2="650"/>
+                  <line x1="1000" y1="100" x2="1000" y2="650"/>
+                  <line x1="100" y1="375" x2="1100" y2="375"/>
+                </g>
+                <circle cx="600" cy="375" r="160" fill="none" stroke="#38ef7d" stroke-width="2"/>
+                <polyline points="400,375 520,375 560,330 640,330 680,375 800,375" fill="none" stroke="#d4ff3f" stroke-width="3"/>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#38ef7d">NEURAL PROSTHETICS // SYSTEM ACTIVE</text>
+              </svg>
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 04 / 06 ]</span>
+                  <span class="project-category">AUTONOMOUS SYSTEMS & IDENTITY</span>
+                </div>
+                <h3 class="project-heading">Vault Cybernetics</h3>
+                <p class="project-summary">
+                  Minimalist luxury identity and high-performance product configurator for next-generation neural bionic prosthetics.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">$42M</div>
+                  <div class="metric-text">Series B Platform • 310% Partner Onboarding Surge</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">React</span>
+                  <span class="tech-tag">Three.js</span>
+                  <span class="tech-tag">Framer Motion</span>
+                  <span class="tech-tag">Tailwind CSS</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- PROJECT 05: SOLARIS BIOSPHERE ARCHIVE -->
+          <article class="project-card case-hero reveal-item" data-project="solaris" data-category="systems" data-cursor="CASE 05">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>PRIX ARS ELECTRONICA</span>
+              </div>
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="sbg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#141a14"/><stop offset="100%" stop-color="#050a06"/>
+                  </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#sbg)"/>
+                <g fill="#d4ff3f" opacity="0.7">
+                  <circle cx="600" cy="375" r="5"/><circle cx="620" cy="365" r="6"/>
+                  <circle cx="585" cy="350" r="7"/><circle cx="570" cy="390" r="8"/>
+                  <circle cx="635" cy="405" r="9"/><circle cx="640" cy="335" r="11"/>
+                  <circle cx="550" cy="335" r="12"/><circle cx="545" cy="425" r="14"/>
+                  <circle cx="665" cy="440" r="15"/><circle cx="670" cy="300" r="17"/>
+                </g>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#d4ff3f">GENERATIVE FLORA DATA ARCHIVE // TELEMETRY</text>
+              </svg>
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 05 / 06 ]</span>
+                  <span class="project-category">GENERATIVE SIMULATION</span>
+                </div>
+                <h3 class="project-heading">Solaris Biosphere Archive</h3>
+                <p class="project-summary">
+                  Live satellite climate telemetry translated into real-time generative floral fractals, genomic phyllotaxis, and harmonic ambient soundscapes.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">14 Unis</div>
+                  <div class="metric-text">Adopted Globally • Covered in Wired UK Science</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">Mathematical Simulation</span>
+                  <span class="tech-tag">Canvas GL</span>
+                  <span class="tech-tag">D3.js</span>
+                  <span class="tech-tag">REST Streams</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- PROJECT 06: ATELIER STRATA -->
+          <article class="project-card case-reverse reveal-item" data-project="strata" data-category="luxury" data-cursor="CASE 06">
+            <div class="project-preview-wrap">
+              <div class="project-overlay-badge">
+                <span class="badge-icon"></span>
+                <span>EUROPEAN DESIGN GOLD</span>
+              </div>
+              <svg class="project-visual" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="stbg" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#1c1917"/><stop offset="100%" stop-color="#0a0807"/>
+                  </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#stbg)"/>
+                <rect x="350" y="240" width="500" height="70" fill="#2d2825" stroke="rgba(255,255,255,0.15)"/>
+                <rect x="420" y="340" width="360" height="180" fill="#201c1a" stroke="rgba(255,255,255,0.12)"/>
+                <line x1="600" y1="180" x2="600" y2="560" stroke="#d4ff3f" stroke-width="1.5"/>
+                <text x="600" y="660" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" letter-spacing="8" fill="#d4ff3f">TRAVERTINE & RAW BRONZE SCULPTURE // MILAN</text>
+              </svg>
+              <div class="project-hover-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="project-info-wrap">
+              <div>
+                <div class="project-meta-top">
+                  <span class="project-idx">[ 06 / 06 ]</span>
+                  <span class="project-category">EDITORIAL COMMERCE FLAGSHIP</span>
+                </div>
+                <h3 class="project-heading">Atelier Strata</h3>
+                <p class="project-summary">
+                  Travertine and bronze architectural furniture digital flagship embodying the tactile gravity and editorial majesty of a physical collector’s monograph.
+                </p>
+
+                <div class="project-metrics-callout">
+                  <div class="metric-accent">4.2 min</div>
+                  <div class="metric-text">Average Session Duration • 92% Surge in Global Commissions</div>
+                </div>
+
+                <div class="project-tech-list">
+                  <span class="tech-tag">Custom CSS</span>
+                  <span class="tech-tag">Micro-Parallax</span>
+                  <span class="tech-tag">Inertia Scroll</span>
+                  <span class="tech-tag">WebP</span>
+                </div>
+              </div>
+
+              <div class="project-cta-row">
+                <span class="view-case-btn">
+                  Inspect Case Study
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         INTERACTIVE CASE STUDY MODAL / DRAWER
+         ===================================================================== -->
+    <div id="case-modal-overlay" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-container">
+        <!-- Close Button -->
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close Case Study" data-cursor="CLOSE">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <!-- Modal Meta Header -->
+        <div class="modal-header-meta">
+          <span>CATEGORY: <strong id="modal-category">LUXURY COMMERCE & 3D</strong></span>
+          <span>YEAR: <strong id="modal-year">2025</strong></span>
+        </div>
+
+        <h2 id="modal-title" class="modal-title">Kronos Haute Horlogerie</h2>
+
+        <!-- Hero Graphic Container -->
+        <div id="modal-hero-img" class="modal-hero-image-wrap">
+          <!-- Dynamically populated SVG -->
+        </div>
+
+        <!-- Editorial Case Narrative -->
+        <div class="modal-editorial-body">
+          <!-- The Challenge -->
+          <div class="modal-section-block">
+            <h3>01 / The Challenge</h3>
+            <p id="modal-challenge">
+              Traditional Swiss horology relies heavily on tactile fascination. The challenge was translating microscopic escapement physics, light reflection on sapphire crystal, and tactile winding into a frictionless web flagship.
+            </p>
+          </div>
+
+          <!-- Specs Matrix -->
+          <div class="modal-specs-grid">
+            <div class="spec-cell">
+              <span class="spec-title">Client / Institution</span>
+              <span id="modal-client" class="spec-value">Kronos Horological Atelier</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-title">My Role</span>
+              <span id="modal-role" class="spec-value">Principal Creative Technologist</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-title">Honours & Recognition</span>
+              <span id="modal-awards" class="spec-value">Awwwards Site of the Day, FWA</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-title">Verified Impact</span>
+              <span id="modal-metrics" class="spec-value">+240% Time On Site</span>
+            </div>
+          </div>
+
+          <!-- The Engineering Solution -->
+          <div class="modal-section-block">
+            <h3>02 / The Architecture & Engineering</h3>
+            <p id="modal-solution">
+              Engineered a bespoke Three.js rendering pipeline with physically-based transmission shaders for sapphire crystal, 60fps real-time tourbillon simulation, and an interactive micro-soundscape generated via Web Audio API.
+            </p>
+          </div>
+
+          <!-- Tech Stack Tags -->
+          <div class="modal-section-block">
+            <h3>03 / Deployed Technologies</h3>
+            <div id="modal-stack-wrap" class="skill-tags-cloud"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- =====================================================================
+         EXPERIENCE & ACHIEVEMENTS TIMELINE SECTION
+         ===================================================================== -->
+    <section id="timeline" class="section">
+      <div class="container">
+        <div class="section-label reveal-item">04 / TRAJECTORY & RECOGNITION</div>
+        <h2 class="section-title reveal-item">A DECADE OF DELIVERING THE UNCOMPROMISING.</h2>
+        <p class="section-desc reveal-item">
+          Selected senior positions, advisory commissions, and international accolades across leading design studios and technology practices.
+        </p>
+
+        <!-- Chronological Timeline -->
+        <div class="timeline-wrap">
+          <!-- Item 1 -->
+          <div class="timeline-item reveal-item">
+            <div class="timeline-year-col">
+              <span>2024 — NOW</span>
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-card">
+              <h3 class="timeline-role">Principal Design Technologist</h3>
+              <div class="timeline-org">Atelier Vance // Independent Global Practice (Zurich & San Francisco)</div>
+              <p class="timeline-desc">
+                Directing sensory digital flagships, high-value WebGL product configurators, and brand engineering systems for select international clientele across haute horlogerie, generative AI, and spatial computing.
+              </p>
+              <div class="timeline-badges">
+                <span class="timeline-badge">Creative Direction</span>
+                <span class="timeline-badge">WebGL Shaders</span>
+                <span class="timeline-badge">Executive Advisory</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item reveal-item reveal-delay-1">
+            <div class="timeline-year-col">
+              <span>2022 — 2024</span>
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-card">
+              <h3 class="timeline-role">Lead Creative Engineer</h3>
+              <div class="timeline-org">Studio Monolith (Paris & New York)</div>
+              <p class="timeline-desc">
+                Spearheaded the technical direction for luxury fashion houses and biennial pavilions. Built proprietary 60fps real-time shader pipelines and managed a distributed team of 8 creative developers.
+              </p>
+              <div class="timeline-badges">
+                <span class="timeline-badge">3x Awwwards SOTD</span>
+                <span class="timeline-badge">FWA of the Month</span>
+                <span class="timeline-badge">Team Leadership</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="timeline-item reveal-item reveal-delay-2">
+            <div class="timeline-year-col">
+              <span>2020 — 2022</span>
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-card">
+              <h3 class="timeline-role">Senior Interaction Architect</h3>
+              <div class="timeline-org">Hyperion Digital Labs (Berlin)</div>
+              <p class="timeline-desc">
+                Invented micro-interaction suites and web audio synthesis engines for next-generation generative art products and scientific data visualization platforms.
+              </p>
+              <div class="timeline-badges">
+                <span class="timeline-badge">Web Audio Synthesis</span>
+                <span class="timeline-badge">Design Systems</span>
+                <span class="timeline-badge">TypeScript</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="timeline-item reveal-item reveal-delay-3">
+            <div class="timeline-year-col">
+              <span>2017 — 2020</span>
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-card">
+              <h3 class="timeline-role">Creative Coder & Interface Designer</h3>
+              <div class="timeline-org">Kinetics Media (Zurich)</div>
+              <p class="timeline-desc">
+                Crafted bespoke editorial websites and interactive marketing installations for Swiss cultural museums, luxury watchmakers, and architecture studios.
+              </p>
+              <div class="timeline-badges">
+                <span class="timeline-badge">Swiss Typography</span>
+                <span class="timeline-badge">Canvas 2D/GL</span>
+                <span class="timeline-badge">Animation Choreography</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="timeline-item reveal-item">
+            <div class="timeline-year-col">
+              <span>ACADEMIA</span>
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-card">
+              <h3 class="timeline-role">Master of Arts in Interaction Design & Creative Code</h3>
+              <div class="timeline-org">ECAL Lausanne / ETH Zurich (Summa Cum Laude)</div>
+              <p class="timeline-desc">
+                Specialized in the synthesis of classic Swiss modernist typography, real-time computational graphics, and human-computer perceptual haptics.
+              </p>
+              <div class="timeline-badges">
+                <span class="timeline-badge">Dean's Honour List</span>
+                <span class="timeline-badge">Published Thesis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Honors & Awards Table -->
+        <div class="honors-section reveal-item">
+          <div class="section-label">CURATED HONORS & GLOBAL RECOGNITION</div>
+          <table class="honors-table">
+            <tbody>
+              <tr class="honor-row">
+                <td class="honor-cell honor-year">2025</td>
+                <td class="honor-cell honor-title">The Webby Awards — Honoree in Visual Design & Innovation</td>
+                <td class="honor-cell honor-project">Aura Sound Engine</td>
+              </tr>
+              <tr class="honor-row">
+                <td class="honor-cell honor-year">2025</td>
+                <td class="honor-cell honor-title">Awwwards Site of the Day & Developer Award</td>
+                <td class="honor-cell honor-project">Kronos Haute Horlogerie</td>
+              </tr>
+              <tr class="honor-row">
+                <td class="honor-cell honor-year">2024</td>
+                <td class="honor-cell honor-title">FWA of the Month & FWA of the Day</td>
+                <td class="honor-cell honor-project">Neo-Tokyo Virtual Pavilion</td>
+              </tr>
+              <tr class="honor-row">
+                <td class="honor-cell honor-year">2024</td>
+                <td class="honor-cell honor-title">Tokyo Type Directors Club Annual Selection</td>
+                <td class="honor-cell honor-project">Typographic Spatial Pavilion</td>
+              </tr>
+              <tr class="honor-row">
+                <td class="honor-cell honor-year">2023</td>
+                <td class="honor-cell honor-title">European Design Awards — Gold Prize</td>
+                <td class="honor-cell honor-project">Atelier Strata Flagship</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         SERVICES & BESPOKE OFFERINGS
+         ===================================================================== -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-label reveal-item">05 / BESPOKE COMMISSIONS</div>
+        <h2 class="section-title reveal-item">TRANSFORMATIVE VALUE FOR VISIONARY CLIENTS.</h2>
+        <p class="section-desc reveal-item">
+          Engaging with an exclusive roster of brands seeking digital presence that redefines their category and creates indelible prestige.
+        </p>
+
+        <div class="services-grid">
+          <!-- Service 1 -->
+          <div class="service-card reveal-item" data-cursor="FLAGSHIP">
+            <div>
+              <div class="service-index">[ 01 ]</div>
+              <h3 class="service-name">Immersive Digital Flagships</h3>
+              <p class="service-desc">
+                High-luxury online environments crafted with editorial prestige, bespoke motion choreography, and frictionless commerce architectures.
+              </p>
+            </div>
+            <ul class="service-deliverables">
+              <li>Editorial visual direction & bespoke layout systems</li>
+              <li>Fluid 60fps micro-interaction libraries</li>
+              <li>High-conversion headless Shopify / Next.js pipelines</li>
+              <li>Global CDN distribution & sub-second load times</li>
+            </ul>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="service-card reveal-item reveal-delay-1" data-cursor="3D LAB">
+            <div>
+              <div class="service-index">[ 02 ]</div>
+              <h3 class="service-name">Interactive 3D & WebGL Environments</h3>
+              <p class="service-desc">
+                Real-time 3D product configurators, virtual pavilions, and procedural canvas installations that captivate audiences without native app barriers.
+              </p>
+            </div>
+            <ul class="service-deliverables">
+              <li>Custom GLSL vertex & fragment shaders</li>
+              <li>Physically-based materials & transmission rendering</li>
+              <li>Optimized low-draw-call 3D asset pipelines</li>
+              <li>Cross-platform fallback & mobile GPU efficiency</li>
+            </ul>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="service-card reveal-item reveal-delay-2" data-cursor="SYSTEMS">
+            <div>
+              <div class="service-index">[ 03 ]</div>
+              <h3 class="service-name">Bespoke Design Systems & Architecture</h3>
+              <p class="service-desc">
+                Scalable design token ecosystems bridging Figma to production code, accompanied by rigorous accessibility and performance benchmarks.
+              </p>
+            </div>
+            <ul class="service-deliverables">
+              <li>Unified multi-brand design tokens</li>
+              <li>Zero-dependency reusable component libraries</li>
+              <li>Comprehensive accessibility compliance (WCAG AAA)</li>
+              <li>Automated visual regression and lighthouse CI</li>
+            </ul>
+          </div>
+
+          <!-- Service 4 -->
+          <div class="service-card reveal-item reveal-delay-3" data-cursor="SONIC">
+            <div>
+              <div class="service-index">[ 04 ]</div>
+              <h3 class="service-name">Sensory Art Direction & Sound Synthesis</h3>
+              <p class="service-desc">
+                Sonic branding, in-browser synthesized audio haptics, and spatial kinetic identity systems that establish emotional resonance.
+              </p>
+            </div>
+            <ul class="service-deliverables">
+              <li>Web Audio API algorithmic sound design</li>
+              <li>Custom cursor dynamics & magnetic tactile feedback</li>
+              <li>Typographic kinetic motion systems</li>
+              <li>Curatorial brand guidelines & digital manifests</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         CONTACT SECTION & COLLABORATION INQUIRY
+         ===================================================================== -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-label reveal-item">06 / INITIATE DIALOGUE</div>
+        <h2 class="contact-headline reveal-item">
+          HAVE A PROJECT IN MIND?<br>
+          <span style="color: var(--accent-lime);">LET’S SHAPE HISTORY.</span>
+        </h2>
+
+        <div class="contact-grid">
+          <!-- Left Column: Direct Contact & Social Links -->
+          <div class="contact-info-block reveal-item">
+            <p style="font-size: 1.25rem; color: #d0d0de; line-height: 1.7;">
+              Currently accepting select commissions for <strong>Q1/Q2 2026</strong>. Whether building a groundbreaking luxury flagship, an experimental WebGL world, or architectural brand systems, I look forward to your vision.
+            </p>
+
+            <!-- 1-Click Copy Email Pill -->
+            <div>
+              <div class="font-mono" style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 0.5rem; letter-spacing: 0.08em;">
+                DIRECT TRANSMISSION (1-CLICK COPY):
+              </div>
+              <div id="email-copy-btn" class="email-copy-pill" data-email="alexander@vance.studio" data-cursor="COPY EMAIL">
+                <span>alexander@vance.studio</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </div>
+            </div>
+
+            <!-- Social Media Matrix -->
+            <div>
+              <div class="font-mono" style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 0.8rem; letter-spacing: 0.08em;">
+                GLOBAL SATELLITE CHANNELS:
+              </div>
+              <div class="social-links-grid">
+                <a href="https://github.com" target="_blank" rel="noopener" class="social-link-item" data-cursor="GITHUB">
+                  <span>GITHUB</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener" class="social-link-item" data-cursor="TWITTER">
+                  <span>TWITTER / X</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+                <a href="https://read.cv" target="_blank" rel="noopener" class="social-link-item" data-cursor="READ.CV">
+                  <span>READ.CV</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link-item" data-cursor="LINKEDIN">
+                  <span>LINKEDIN</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Inquiry Form -->
+          <div class="inquiry-form-card reveal-item reveal-delay-2">
+            <form id="inquiry-form" novalidate>
+              <!-- Service Selection Pills -->
+              <div class="form-group">
+                <label class="form-label">Select Service Focus</label>
+                <div class="pill-select-group">
+                  <span class="pill-option service-pill active" data-cursor="FLAGSHIP">Digital Flagship</span>
+                  <span class="pill-option service-pill" data-cursor="WEBGL">WebGL 3D Experience</span>
+                  <span class="pill-option service-pill" data-cursor="SYSTEM">Design System</span>
+                  <span class="pill-option service-pill" data-cursor="ADVISORY">Creative Advisory</span>
+                </div>
+              </div>
+
+              <!-- Budget Tier Selection Pills -->
+              <div class="form-group">
+                <label class="form-label">Anticipated Budget (USD)</label>
+                <div class="pill-select-group">
+                  <span class="pill-option budget-pill" data-cursor="TIER">$20k — $40k</span>
+                  <span class="pill-option budget-pill active" data-cursor="TIER">$40k — $75k</span>
+                  <span class="pill-option budget-pill" data-cursor="TIER">$75k+</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="client-name">Your Name / Organization *</label>
+                <input type="text" id="client-name" class="form-input" placeholder="e.g. Helena von Berg / Audemars Piguet" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="client-email">Email Address *</label>
+                <input type="email" id="client-email" class="form-input" placeholder="helena@organization.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="project-vision">Project Vision & Timeline *</label>
+                <textarea id="project-vision" class="form-input" placeholder="Briefly describe the ambition, objectives, and desired launch window..." required></textarea>
+              </div>
+
+              <button type="submit" class="magnetic-btn btn-primary form-submit-btn" data-cursor="TRANSMIT">
+                <span>Transmit Commission Inquiry</span>
+                <svg class="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </form>
+
+            <!-- Success Banner -->
+            <div id="form-success-banner" class="form-success-banner" role="alert">
+              <h4>✦ TRANSMISSION CONFIRMED</h4>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.5rem;">
+                Your inquiry has been received with distinction. A tailored dossier and preliminary briefing will be delivered within 24 hours.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- =======================================================================
+       DISTINCTIVE FOOTER DESIGN
+       ======================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h3>ALEXANDER VANCE</h3>
+          <p>PRINCIPAL CREATIVE TECHNOLOGIST & DESIGN ARCHITECT</p>
+        </div>
+
+        <button id="back-to-top" class="back-to-top-btn" data-cursor="ASCEND">
+          <span>Back to Apex</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 ALEXANDER VANCE. ALL RIGHTS RESERVED. CRAFTED WITH REVERENCE.
+        </div>
+
+        <div class="font-mono">
+          47°22'43"N 8°32'24"E — ZURICH, SWITZERLAND
+        </div>
+
+        <div class="footer-status-pill">
+          <span class="indicator-dot"></span>
+          <span>SYSTEMS OPTIMIZED (60 FPS)</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/canvas.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
